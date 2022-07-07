@@ -1,14 +1,25 @@
-#!/bin/sh
-VERSION=3.5.1
-PACKAGE=cmake-$VERSION
-if [ ! -f /tmp/$PACKAGE-installed ]; then
-    curl -L --progress-bar --insecure https://cmake.org/files/v3.5/$PACKAGE.tar.gz --output /tmp/$PACKAGE.tar.gz
-    tar xf /tmp/$PACKAGE.tar.gz --directory /tmp
-    cd /tmp/$PACKAGE
-    ./configure
-    make
-    make install
-    cd ~/
-    rm -rf /tmp/$PACKAGE*
-    touch /tmp/$PACKAGE-installed
-fi
+#!/bin/ash
+VERSION=3.22.5
+arch=$(uname -m);
+PACKAGE="cmake-${VERSION}-linux-${ARCH}.tar.gz";
+case "$arch" in 
+    'amd64')
+        ARCH="x86_64";
+        ;;
+    'arm64')
+        ARCH="aarch64";
+        ;;
+    'aarch64')
+        ARCH="aarch64";
+        ;;
+    *) echo >&2 "error: unsupported architecture: '$arch'"; exit 1 ;;
+esac;
+
+curl -L --progress-bar --insecure https://github.com/Kitware/CMake/releases/download/v${VERSION}/$PACKAGE --output /tmp/$PACKAGE
+tar xf /tmp/$PACKAGE --directory /tmp
+cd /tmp/$PACKAGE
+./configure
+make
+make install
+cd ~/
+rm -rf /tmp/$PACKAGE*

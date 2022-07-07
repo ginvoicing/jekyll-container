@@ -79,6 +79,10 @@ RUN set -ex \
 
 RUN set -ex \
     \
+    && apk add --no-cache woff2 fontforge
+
+RUN set -ex \
+    \
     &&  mkdir -p /home/jekyll && \
     addgroup -Sg 1000 jekyll && \
     adduser -SG jekyll -u 1000 -s /bin/sh -h /home/jekyll jekyll && \
@@ -91,14 +95,15 @@ RUN set -ex \
 ADD install_cmake.sh /tmp/install_cmake.sh
 ADD install_sfnt2woff.sh /tmp/install_sfnt2woff.sh
 ADD install_tidy.sh /tmp/install_tidy.sh
+ADD entrypoint /
 
 WORKDIR ${APP_SOURCE}
 
 RUN set -ex \
     \
-    && /tmp/install_cmake.sh \
-    /tmp/install_sfnt2woff.sh \
-    /tmp/install_tidy.sh 
+    && /tmp/install_cmake.sh && \
+    /tmp/install_sfnt2woff.sh && \
+    /tmp/install_tidy.sh
 
 ADD giwww.conf /etc/nginx/conf.d/default.conf
 
