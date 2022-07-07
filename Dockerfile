@@ -61,7 +61,6 @@ RUN set -ex \
     yaml \
     fontforge \
     libffi \
-    nginx \
     aspell \
     aspell-en  \
     shadow \
@@ -105,6 +104,6 @@ RUN set -ex \
     /tmp/install_sfnt2woff.sh && \
     /tmp/install_tidy.sh
 
-ADD giwww.conf /etc/nginx/conf.d/default.conf
+# ADD giwww.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/install*
