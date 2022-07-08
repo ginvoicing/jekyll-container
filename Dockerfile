@@ -35,7 +35,7 @@ RUN apk --no-cache add \
 
 RUN set -ex \
     \
-    && apk add --no-cache --virtual .build-jekyll \
+    && apk add --no-cache --virtual \
     build-base \
     binutils-gold \
     curl \
@@ -96,6 +96,9 @@ ADD install_sfnt2woff.sh /tmp/install_sfnt2woff.sh
 ADD install_tidy.sh /tmp/install_tidy.sh
 ADD entrypoint /
 
+
+RUN chmod +x /entrypoint
+
 WORKDIR ${APP_SOURCE}
 VOLUME  ${APP_SOURCE}
 
@@ -105,8 +108,40 @@ RUN set -ex \
     /tmp/install_sfnt2woff.sh && \
     /tmp/install_tidy.sh
 
+# Stops slow Nokogiri!
+RUN gem install jekyll -v 3.9.2 -- --use-system-libraries --no-ri --no-rdoc
+RUN gem install \
+    rake \
+    sass \
+    jekyll-feed \
+    jekyll-gist \
+    jekyll-paginate \
+    jekyll-plantuml \
+    jekyll-sass \
+    jekyll-sass-converter \
+    jekyll-sitemap \
+    kramdown-parser-gfm \
+    nokogiri \
+    mail \
+    uuidtools \
+    redcarpet \
+    nuggets \
+    pygments.rb \
+    w3c_validators \
+    trollop \
+    scss_lint \
+    html-proofer \
+    rubocop \
+    rubocop-rspec \
+    fontcustom \
+    s3_website \
+    thor -- \
+    --use-system-libraries --no-ri --no-rdoc
+
 # ADD giwww.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/install*
 
 EXPOSE 4000
+CMD [ "jekyll --help" ]
+ENTRYPOINT ["/entrypoint"]

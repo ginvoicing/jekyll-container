@@ -1,5 +1,2 @@
 #!/bin/ash
-
-bundle install
-
-bundle exec jekyll serve
+exec "$@"
