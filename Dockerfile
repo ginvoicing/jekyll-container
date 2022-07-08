@@ -107,9 +107,9 @@ RUN set -ex \
     && /tmp/install_cmake.sh && \
     /tmp/install_sfnt2woff.sh && \
     /tmp/install_tidy.sh
-
+ENV JEKYLL_VERSION=4.2.2
 # Stops slow Nokogiri!
-RUN gem install jekyll -v 3.9.2 -- --use-system-libraries --no-ri --no-rdoc
+RUN gem install jekyll -v ${JEKYLL_VERSION} -- --use-system-libraries --no-ri --no-rdoc
 RUN gem install \
     rake \
     sass \
@@ -137,6 +137,8 @@ RUN gem install \
     s3_website \
     thor -- \
     --use-system-libraries --no-ri --no-rdoc
+
+# RUN gem install jekyll-related-posts -- --use-system-libraries --no-ri --no-rdoc
 
 # ADD giwww.conf /etc/nginx/conf.d/default.conf
 
