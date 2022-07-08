@@ -54,7 +54,6 @@ RUN set -ex \
     libxslt \
     libxml2-utils \
     su-exec \
-    npm \
     tzdata \
     git \
     zlib \
@@ -68,11 +67,8 @@ RUN set -ex \
     gnuplot \
     libcurl \
     curl \
-    less \
     openssl \
     zlib \
-    nodejs \
-    yarn \
     libressl \
     libc6-compat  
 
@@ -132,7 +128,6 @@ RUN gem install \
     pygments.rb \
     w3c_validators \
     trollop \
-    scss_lint \
     html-proofer \
     rubocop \
     rubocop-rspec \
