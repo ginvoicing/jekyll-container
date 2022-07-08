@@ -14,7 +14,7 @@ case "$arch" in
     *) echo >&2 "error: unsupported architecture: '$arch'"; exit 1 ;;
 esac;
 
-PACKAGE="cmake-${VERSION}-linux-${ARCH}.tar.gz";
+PACKAGE="cmake-${VERSION}.tar.gz";
 curl -L --progress-bar --insecure https://github.com/Kitware/CMake/releases/download/v${VERSION}/$PACKAGE --output /tmp/$PACKAGE
 tar xf /tmp/$PACKAGE --directory /tmp
 cd /tmp/$PACKAGE
