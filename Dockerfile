@@ -98,6 +98,9 @@ ADD entrypoint /
 
 
 RUN chmod +x /entrypoint
+RUN chmod +x /tmp/install_cmake.sh
+RUN chmod +x /tmp/install_sfnt2woff.sh
+RUN chmod +x /tmp/install_tidy.sh
 
 WORKDIR ${APP_SOURCE}
 VOLUME  ${APP_SOURCE}
