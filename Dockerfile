@@ -86,15 +86,18 @@ RUN set -ex \
     mkdir ${APP_SOURCE} && \
     chown jekyll:jekyll ${APP_SOURCE}
 
+ENV CMAKE_VERSION=3.23.2
 
-ADD install_cmake.sh /tmp/install_cmake.sh
+ADD https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz /tmp/
+
+RUN cd /tmp/cmake-${CMAKE_VERSION} && ./configure && make && make install 
+
 ADD install_sfnt2woff.sh /tmp/install_sfnt2woff.sh
 ADD install_tidy.sh /tmp/install_tidy.sh
 ADD entrypoint /
 
 
 RUN chmod +x /entrypoint
-RUN chmod +x /tmp/install_cmake.sh
 RUN chmod +x /tmp/install_sfnt2woff.sh
 RUN chmod +x /tmp/install_tidy.sh
 
@@ -140,7 +143,7 @@ RUN gem install \
 
 # ADD giwww.conf /etc/nginx/conf.d/default.conf
 
-RUN rm -rf /var/cache/apk/* && rm -rf /tmp/install*
+RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 
 EXPOSE 4000
 CMD [ "jekyll --help" ]
