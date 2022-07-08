@@ -90,7 +90,7 @@ ENV CMAKE_VERSION=3.23.2
 
 ADD https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz /tmp/
 
-RUN cd /tmp/cmake-${CMAKE_VERSION} && ./configure && make && make install 
+RUN tar xf /tmp/cmake-${CMAKE_VERSION}.tar.gz --directory /tmp && cd /tmp/cmake-${CMAKE_VERSION} && ./configure && make && make install 
 
 ADD install_sfnt2woff.sh /tmp/install_sfnt2woff.sh
 ADD install_tidy.sh /tmp/install_tidy.sh
