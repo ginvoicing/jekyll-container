@@ -15,11 +15,11 @@ case "$arch" in
 esac;
 
 PACKAGE="cmake-${VERSION}.tar.gz";
-curl -L --progress-bar --insecure https://github.com/Kitware/CMake/releases/download/v${VERSION}/$PACKAGE --output /tmp/$PACKAGE
+curl -L --progress-bar --insecure https://github.com/Kitware/CMake/releases/download/v${VERSION}/${PACKAGE} --output /tmp/${PACKAGE}
 tar xf /tmp/$PACKAGE --directory /tmp
-cd /tmp/$PACKAGE
+cd /tmp/${PACKAGE}
 ./configure
 make
 make install
 cd ~/
-rm -rf /tmp/$PACKAGE*
+rm -rf /tmp/${PACKAGE}*
