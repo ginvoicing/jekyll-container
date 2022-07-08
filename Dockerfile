@@ -22,7 +22,6 @@ RUN apk --no-cache add \
     vips-dev \
     vips-tools \
     sqlite-dev \
-    cmake \
     zlib-dev \
     libxslt-dev \
     yaml-dev \
@@ -106,7 +105,6 @@ VOLUME  ${APP_SOURCE}
 
 RUN set -ex \
     \
-    && /tmp/install_cmake.sh && \
     /tmp/install_sfnt2woff.sh && \
     /tmp/install_tidy.sh
 ENV JEKYLL_VERSION=4.2.2
