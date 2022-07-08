@@ -97,6 +97,7 @@ ADD install_tidy.sh /tmp/install_tidy.sh
 ADD entrypoint /
 
 WORKDIR ${APP_SOURCE}
+VOLUME  ${APP_SOURCE}
 
 RUN set -ex \
     \
@@ -107,3 +108,5 @@ RUN set -ex \
 # ADD giwww.conf /etc/nginx/conf.d/default.conf
 
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/install*
+
+EXPOSE 4000
