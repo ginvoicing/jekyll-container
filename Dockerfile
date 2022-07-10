@@ -70,11 +70,8 @@ RUN set -ex \
     openssl \
     zlib \
     libressl \
-    libc6-compat  
-
-RUN set -ex \
-    \
-    && apk add --no-cache woff2 fontforge
+    libc6-compat \
+    woff2
 
 RUN set -ex \
     \
