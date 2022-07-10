@@ -22,6 +22,7 @@ RUN apk --no-cache add \
     vips-dev \
     vips-tools \
     sqlite-dev \
+    cmake \
     zlib-dev \
     libxslt-dev \
     yaml-dev \
@@ -85,40 +86,32 @@ RUN set -ex \
     mkdir ${APP_SOURCE} && \
     chown jekyll:jekyll ${APP_SOURCE}
 
-ENV CMAKE_VERSION=3.23.2
+ADD https://github.com/htacg/tidy-html5/archive/refs/tags/5.8.0.tar.gz /tmp/
+RUN tar xf /tmp/5.8.0.tar.gz --directory /tmp/ && \
+    cd /tmp/tidy-html5-5.8.0/build/cmake && \
+    cmake ../.. && \
+    make && \
+    make install
 
-ADD https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz /tmp/
+ADD http://img.teamed.io/woff-code-latest.zip /tmp/
+RUN unzip -d /tmp/sfnt2woff /tmp/woff-code-latest.zip && \
+    cd /tmp/sfnt2woff && \
+    make && \
+    mv sfnt2woff /usr/bin/ && \
+    chmod +x /usr/bin/sfnt2woff
 
-RUN tar xf /tmp/cmake-${CMAKE_VERSION}.tar.gz --directory /tmp && cd /tmp/cmake-${CMAKE_VERSION} && ./configure && make && make install 
-
-ADD install_sfnt2woff.sh /tmp/install_sfnt2woff.sh
-ADD install_tidy.sh /tmp/install_tidy.sh
 ADD entrypoint /
-
-
 RUN chmod +x /entrypoint
-RUN chmod +x /tmp/install_sfnt2woff.sh
-RUN chmod +x /tmp/install_tidy.sh
 
-WORKDIR ${APP_SOURCE}
-VOLUME  ${APP_SOURCE}
-
-RUN set -ex \
-    \
-    /tmp/install_sfnt2woff.sh && \
-    /tmp/install_tidy.sh
 ENV JEKYLL_VERSION=4.2.2
 # Stops slow Nokogiri!
 RUN gem install jekyll -v ${JEKYLL_VERSION} -- --use-system-libraries --no-ri --no-rdoc
 RUN gem install \
     rake \
-    sass \
     jekyll-feed \
     jekyll-gist \
     jekyll-paginate \
     jekyll-plantuml \
-    jekyll-sass \
-    jekyll-sass-converter \
     jekyll-sitemap \
     kramdown-parser-gfm \
     nokogiri \
@@ -143,6 +136,9 @@ RUN gem install \
 
 RUN rm -rf /var/cache/apk/* && rm -rf /tmp/*
 
+
+WORKDIR ${APP_SOURCE}
+VOLUME  ${APP_SOURCE}
 EXPOSE 4000
 CMD [ "jekyll --help" ]
 ENTRYPOINT ["/entrypoint"]
